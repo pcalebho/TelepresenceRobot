@@ -1,0 +1,32 @@
+services:
+  ros:
+    build:
+      context: robot
+      dockerfile: ros.dockerfile
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./robot:/usr/src/app/
+    # develop:
+    #   watch:
+    #     - action: sync
+    #       path: ./app
+    #       target: /usr/src/app
+
+  node:
+    build:
+      context: web
+      dockerfile: node.dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/usr/src/app/
+    # develop:
+    #   watch:
+    #     - action: sync
+    #       path: ./app
+    #       target: /usr/src/app
+    #       ignore:
+    #         - node_modules/
+    #     - action: rebuild
+    #       path: package.json

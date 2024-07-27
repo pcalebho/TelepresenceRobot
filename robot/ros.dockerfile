@@ -13,5 +13,9 @@ WORKDIR /usr/src/app
 # Expose necessary port for rosbridge
 EXPOSE 9090
 
+# COPY . /usr/src/app/
+
+# RUN useradd -ms /bin/sh -u 1001 app
+
 # Source the ROS environment and start rosbridge_websocket
-CMD ["bash", "-c", "source /opt/ros/humble/setup.bash && roslaunch rosbridge_websocket rosbridge_websocket.launch"]
+CMD ["bash", "-c", "source /opt/ros/humble/setup.bash && ros2 launch rosbridge_server rosbridge_websocket_launch.xml"]
