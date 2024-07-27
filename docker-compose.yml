@@ -1,0 +1,19 @@
+version: '3'
+services:
+  ros:
+    build:
+      context: .
+      dockerfile: ros.Dockerfile
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./ros-app:/usr/src/app
+
+  node:
+    build:
+      context: .
+      dockerfile: node.Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./node-app:/usr/src/app
