@@ -4,7 +4,6 @@ const PORT = 3000;
 // const SimplePeer = require('simple-peer');
 
 const app = express();
-const server = http.createServer(app);
 // const io = socketIo(server);
 
 app.use(express.static(__dirname + '/public'));
