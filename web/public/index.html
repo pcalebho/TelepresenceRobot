@@ -3,29 +3,65 @@
   <head>
     <meta charset="utf-8" />
   </head>
+  <style>
+    video {
+      width: 45%;
+      height: auto;
+      margin: 10px;
+    }
+  </style>
   <body>
-    <h1>Rosbridge demo</h1>
+    <video id="localVideo" autoplay muted></video>
+    <video id="remoteVideo" autoplay></video>
+    <h1>Telepresence Robot</h1>  
+
+    <form>
+      <textarea id="incoming"></textarea>
+      <button type="submit">submit</button>
+    </form>
+    <pre id="outgoing"></pre>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/simple-peer/simplepeer.min.js"></script> 
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const p = new SimplePeer({
+        initiator: location.hash === '#1',
+        trickle: false
+      })
+
+      p.on('error', err => console.log('error', err))
+
+      p.on('signal', data => {
+        console.log('SIGNAL', JSON.stringify(data))
+        document.querySelector('#outgoing').textContent = JSON.stringify(data)
+      })
+
+      document.querySelector('form').addEventListener('submit', ev => {
+        ev.preventDefault()
+        p.signal(JSON.parse(document.querySelector('#incoming').value))
+      })
+
+      p.on('connect', () => {
+        console.log('CONNECT')
+        p.send('whatever' + Math.random())
+      })
+
+      p.on('data', data => {
+        console.log('data: ' + data)
+      })
+    </script>
     
-    <p>To see this page update:</p>
-    <ul>
-      <li>Run a Rosbridge connection at <code>ws://localhost:9090</code></li>
-      <li>Start publishing ROS messages to <code>/my_topic</code></li>
-    </ul>geometry_msgs/index-msg.html
-    
-    <p>View the full tutorial at <a href="https://foxglove.dev/blog/using-rosbridge-with-ros1" target="_blank">Using Rosbridge with ROS 1</a> or <a href="https://foxglove.dev/blog/using-rosbridge-with-ros2" target="_blank">Using Rosbridge with ROS 2</a>.</p>
-    
-    <hr/>
-    
+
     <p>Connection: <span id="status" style="font-weight: bold;">N/A</span></p>
     <p><code>/my_topic</code> messages received: <ul id="messages" style="font-weight: bold;"></ul></p>
 
-    <!-- <script type="text/javascript" src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script> -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
     
     <script type="text/javascript" type="text/javascript">
       // Create ros object to communicate over your Rosbridge connection
-      const ros = new ROSLIB.Ros({ url : 'ws://99.30.49.178:9090' });
+      // const ros = new ROSLIB.Ros({ url : 'ws://99.30.49.178:9090' });
+      const ros = new ROSLIB.Ros({ url : 'ws://localhost:9090' });
 
 
      // When the Rosbridge server connects, fill the span with id “status" with “successful"

@@ -20,7 +20,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./web:/usr/src/app/
+      - ./web/backend:/usr/src/app/backend
+      - ./web/public:/usr/src/app/public
     # develop:
     #   watch:
     #     - action: sync
