@@ -4,33 +4,44 @@
     <meta charset="utf-8" />
   </head>
   <style>
-    video {
-      width: 45%;
-      height: auto;
-      margin: 10px;
+    .video-container {
+      position: relative;
+      width: 800px; /* Set desired width */
+      height: 600px; /* Set desired height */
+      background-color: #000; /* Optional background color */
+      overflow: hidden; /* Optional, hides any overflow */
     }
+
+    .video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Cover the entire container */
+    }
+
+    /* Specific styles for each video */
+    #localVideo {
+        width: 200px; /* Smaller width for local video */
+        height: 150px; /* Smaller height for local video */
+        bottom: 10px; /* Position local video near the bottom */
+        right: 10px;  /* Position local video near the right side */
+    }
+
   </style>
   <body>
-    <video id="localVideo" autoplay muted></video>
-    <video id="remoteVideo" autoplay></video>
-    <h1>Telepresence Robot</h1>  
-
-    <form>
-      <textarea id="incoming"></textarea>
-      <button type="submit">submit</button>
-    </form>
-    <pre id="outgoing"></pre>
-
-    <p>Connection: <span id="status" style="font-weight: bold;">N/A</span></p>
-    <p><code>/my_topic</code> messages received: <ul id="messages" style="font-weight: bold;"></ul></p>
+    <div class="video-container">
+      <video id="remoteVideo" class="video" autoplay></video>
+      <video id="localVideo" class="video" autoplay muted></video>
+    </div>
+  
     <script src="/socket.io/socket.io.js"></script>  
 
     <script type="text/javascript" src="rtc_code.js"></script>
-
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/simple-peer/simplepeer.min.js"></script> 
-   
-    <script type="text/javascript" src="rosbridge.js"></script>
+       <script type="text/javascript" src="rosbridge.js"></script>
   </body>
 </html>
