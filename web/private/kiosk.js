@@ -1,44 +1,35 @@
-// public/kiosk.js
 const socket = io();
-let kioskPeer, localStream, remoteVideo, localVideo;
+let kioskPeer, kioskStream, clientVideo, kioskVideo;
 
-remoteVideo = document.getElementById('remoteVideo');
+kioskVideo = document.getElementById('remoteVideo');
 
 // Request user media
 navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     .then((stream) => {
-        localStream = stream;
+        kioskStream = stream;
 
         // Create a new peer connection
         kioskPeer = new SimplePeer({
             initiator: false,
             trickle: false,
-            stream: localStream
+            stream: kioskStream
         });
 
         // Signal when receiving a signal
-        socket.on('signal', (data) => {
-            kioskPeer.signal(data.signal);
+        socket.on('offer', (data) => {
+            kioskPeer.signal(data);
         });
 
         // Send signals to the other peer
         kioskPeer.on('signal', (data) => {
-            socket.emit('signal', { signal: data, target: connectedUser });
+            socket.emit('answer', data);
         });
 
         // Add the remote stream
         kioskPeer.on('stream', (stream) => {
-            remoteVideo.srcObject = stream;
+            kioskVideo.srcObject = stream;
         });
-
-        // Handling connection established
-        socket.on('ready', (data) => {
-            connectedUser = data;
-        });
-
-        socket.on('clear_queue', () => {
-            window.location.href = '/kiosk.html';
-        });
+              
     })
     .catch((err) => {
         console.error('Error accessing media devices.', err);

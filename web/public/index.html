@@ -8,7 +8,7 @@
       position: relative;
       width: 800px; /* Set desired width */
       height: 600px; /* Set desired height */
-      background-color: #000; /* Optional background color */
+      background-color: #8d7a7a; /* Optional background color */
       overflow: hidden; /* Optional, hides any overflow */
     }
 
@@ -35,13 +35,13 @@
       <video id="remoteVideo" class="video" autoplay></video>
       <video id="localVideo" class="video" autoplay muted></video>
     </div>
+    <div id="status">N/A</div>
   
     <script src="/socket.io/socket.io.js"></script>  
-
+    <script type="text/javascript" src="https://unpkg.com/simple-peer/simplepeer.min.js"></script> 
     <script type="text/javascript" src="client.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/simple-peer/simplepeer.min.js"></script> 
-       <script type="text/javascript" src="rosbridge.js"></script>
+    <script type="text/javascript" src="rosbridge.js"></script>
   </body>
 </html>

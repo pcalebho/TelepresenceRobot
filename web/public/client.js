@@ -1,5 +1,6 @@
 // public/client.js
 const socket = io();
+let connectedUser = null;
 let localPeer, localStream, kioskVideo, clientVideo;
 
 kioskVideo = document.getElementById('remoteVideo');
@@ -7,44 +8,31 @@ clientVideo = document.getElementById('localVideo');
 
 // Request user media
 navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-    .then((stream) => {
-        localStream = stream;
-        clientVideo.srcObject = stream;
+    .then((clientStream) => {
+        clientVideo.srcObject = clientStream;
 
         // Create a new peer connection
         localPeer = new SimplePeer({
             initiator: true,
             trickle: false,
-            stream: localStream
+            stream: clientStream
         });
 
+
         // Signal when receiving a signal
-        socket.on('signal', (data) => {
-            localPeer.signal(data.signal);
+        socket.on('answer', (data) => {
+            localPeer.signal(data);
         });
 
         // Send signals to the other peer
         localPeer.on('signal', (data) => {
-            socket.emit('signal', { signal: data, target: connectedUser });
+            socket.emit('offer', data);
+            console.log("Offer: ", data)
         });
 
         // Add the remote stream
         localPeer.on('stream', (stream) => {
-            kioskVideo.srcObject = stream;
-        });
-
-        // Handling connection established
-        socket.on('ready', (data) => {
-            connectedUser = data;
-            localPeer = new SimplePeer({
-                initiator: false,
-                trickle: false,
-                stream: localStream
-            });
-        });
-
-        socket.on('waiting', () => {
-            window.location.href = '/waiting.html';
+            kioskVideo.srcObject = clientStream;
         });
     })
     .catch((err) => {
