@@ -20,17 +20,18 @@ io.on('connection', (socket) => {
 
     //when receiving an offer from 
     socket.on('offer', (offer) => {
-        console.log('Offer: ', offer)
+        console.log('Offer from:', socket.id)
         socket.broadcast.emit('offer', offer)
     });
     socket.on('answer',(answer) => {
-        console.log('Answer: ', answer)
+        console.log('Answer from:', socket.id)
         socket.broadcast.emit('answer', answer)
     });
 
-    socket.on('disconnect', () => {
-        console.log('User disconnected:', connectedUser);
-    });
+    // socket.on('disconnect', () => {
+    //     console.log('User disconnected:', socket.id);
+    //     io.to.emit('user dc', socket.id);
+    // });
 });
 
 
