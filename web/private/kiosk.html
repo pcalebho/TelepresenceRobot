@@ -3,12 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Chat - Kiosk</title>
+    <title>Telepresence - Kiosk</title>
     <style>
-        #remoteVideo{
-            background-color: blue;
-            height:95vh;
+        body {
+            background-color: black;      
+            overflow: hidden;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        #remoteVideo {
             width: auto;
+            height: 100vh;
+            object-fit: cover; /* Ensures the video fills the container without distortion */
         }
     </style>
 </head>
