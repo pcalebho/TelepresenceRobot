@@ -5,19 +5,19 @@ const ros = new ROSLIB.Ros({ url : 'ws://localhost:9090' });
 
 // When the Rosbridge server connects, fill the span with id “status" with “successful"
 ros.on('connection', () => {
-  document.getElementById("status").innerHTML = "successful";
+  document.getElementById("status").innerHTML = "RosBridge Status: successful";
   console.log("Successful RosBridge Websocket Connection");
 });
 
 // When the Rosbridge server experiences an error, fill the “status" span with the returned error
 ros.on('error', (error) => {
-  document.getElementById("status").innerHTML = `errored out (${error})`;
+  document.getElementById("status").innerHTML = `RosBridge Status: errored out (${error})`;
   console.log("Error RosBridge Websocket Connection");
 });
 
 // When the Rosbridge server shuts down, fill the “status" span with “closed"
 ros.on('close', () => {
-  document.getElementById("status").innerHTML = "closed";
+  document.getElementById("status").innerHTML = "RosBridge Status: closed";
   console.log("Closed RosBridge Websocket Connection");
 });
 

@@ -4,12 +4,32 @@
     <meta charset="utf-8" />
   </head>
   <style>
+    body {
+      padding: 0;
+      margin: 0;  
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
     .video-container {
       position: relative;
       width: 800px; /* Set desired width */
       height: 600px; /* Set desired height */
       background-color: #8d7a7a; /* Optional background color */
       overflow: hidden; /* Optional, hides any overflow */
+    }
+
+    p {
+      width: 200px;
+      padding: 0;
+      margin: 5px;
+    }
+  
+    .info-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      width: 800px;
     }
 
     .video {
@@ -35,7 +55,17 @@
       <video id="remoteVideo" class="video" autoplay></video>
       <video id="localVideo" class="video" autoplay muted></video>
     </div>
-    <div id="status">N/A</div>
+    <div class="info-box">
+      <div style="display: flex; flex-direction: column; margin-top: 20px;">
+        <p><b>W,A,S,D</b> to move around</p>
+        <p><b>Q</b> and <b>E</b> keys changes the speed</p>
+        <p>Up and down arrow keys to adjust the camera position</p>
+      </div>
+      <div style="display: flex; flex-direction: column; margin-top: 20px;">
+        <div id="status">Rosbridge status: N/A</div> 
+        <div style="margin-top: 5px">Speed: </div>
+      </div>
+    </div>
   
     <script src="/socket.io/socket.io.js"></script>  
     <script type="text/javascript" src="https://unpkg.com/simple-peer/simplepeer.min.js"></script> 
