@@ -9,9 +9,12 @@ const io = new Server(server);
 
 let connectedUser = null; // Store the ID of the currently connected user
 
+//find the path where this was located
+const path = require('path');
+
 // Serve static files from the "public" directory
-app.use(express.static('public'));  
-app.use(express.static('private'))
+app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/private')));
 
   
 io.on('connection', (socket) => {
