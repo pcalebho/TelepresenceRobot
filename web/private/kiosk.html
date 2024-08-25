@@ -6,20 +6,21 @@
     <title>Telepresence - Kiosk</title>
     <style>
         body {
-            background-color: black;      
+            background-color: black;
             overflow: hidden;
-            padding: 0;
-            height: 100%;
-            width: 100%;
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
         }
 
         #remoteVideo {
-            width: auto;
-            height: 100vh;
-            object-fit: cover; /* Ensures the video fills the container without distortion */
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
