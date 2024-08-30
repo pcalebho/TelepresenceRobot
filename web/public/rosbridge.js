@@ -1,6 +1,6 @@
 // Create ros object to communicate over your Rosbridge connection
-// const ros = new ROSLIB.Ros({ url : 'ws://99.30.49.178:9090' });
-const ros = new ROSLIB.Ros({ url : 'ws://localhost:9090' });
+const ros = new ROSLIB.Ros({ url : 'ws://23.114.63.102:9090' });
+// const ros = new ROSLIB.Ros({ url : 'ws://localhost:9090' });
 
 
 // When the Rosbridge server connects, fill the span with id “status" with “successful"
