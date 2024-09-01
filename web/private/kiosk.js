@@ -8,12 +8,9 @@ kioskVideo.src = tabletCameraURL;
 
 
 // Request user media
-localVideo.onloadedmetadata = () => {
+kioskVideo.onloadedmetadata = () => {
     // Capture the MediaStream from the video element
-    const stream = localVideo.captureStream();
-    
-    // Display the video on the kiosk (if needed)
-    document.body.appendChild(localVideo);
+    const stream = kioskVideo.captureStream();
     
     // Set up the WebRTC peer connection with the captured stream
     setupPeerConnection(stream);
