@@ -1,20 +1,14 @@
 const socket = io();
 let kioskPeer, kioskStream, clientVideo, kioskVideo;
 
-const tabletCameraURL = 'http://192.168.1.102:4747/video';
-
 kioskVideo = document.getElementById('remoteVideo');
-kioskVideo.src = tabletCameraURL;
 
+InitKiosk();
 
-// Request user media
-kioskVideo.onloadedmetadata = () => {
-    // Capture the MediaStream from the video element
-    const stream = kioskVideo.captureStream();
-    
-    // Set up the WebRTC peer connection with the captured stream
-    setupPeerConnection(stream);
-};
+// Signal when receiving a signal
+socket.on('offer', (data) => {
+    kioskPeer.signal(data);
+});
 
 
 function InitKiosk() {
@@ -26,7 +20,6 @@ function InitKiosk() {
     kioskPeer = new SimplePeer({
         initiator: false,
         trickle: false,
-        stream: kioskStream
     });
 
     // Send signals to the other peer

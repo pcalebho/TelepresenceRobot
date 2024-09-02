@@ -25,9 +25,11 @@
     </style>
 </head>
 <body>
-    <video id="remoteVideo" autoplay="" muted="" playsinline=""></video>
+    <img src="http://192.168.1.102:8080/video" alt="Tablet Camera Stream">
+    <!-- <video id="remoteVideo" autoplay playsinline>
+        <source src='http://192.168.1.102:4747/video' type="video/mp4">
+    </video> -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-peer@9.11.1/simplepeer.min.js"></script>
-    <script src="kiosk.js"></script>
 </body>
 </html>
