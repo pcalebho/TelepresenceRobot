@@ -21,20 +21,6 @@ ros.on('close', () => {
   console.log("Closed RosBridge Websocket Connection");
 });
 
-// Create a listener for /my_topic
-const my_topic_listener = new ROSLIB.Topic({
-  ros,
-  name : "/my_topic",
-  messageType : "std_msgs/String"
-});
-
-// When we receive a message on /my_topic, add its data as a list item to the “messages" ul
-my_topic_listener.subscribe((message) => {
-  const ul = document. getElementById("messages");
-  const newMessage = document. createElement("li");
-  newMessage. appendChild(document. createTextNode(message.data));
-  ul.appendChild(newMessage);
-});
 
 const moveBindings = {
   'i': [1, 0, 0, 0],
@@ -66,6 +52,11 @@ const speedBindings = {
   'c': [1, 0.9]
 };
 
+const gimbalBindings = {
+  "ArrowUp" : true,
+  "ArrowDown": false 
+}
+
 const speed_limit = 1000.0;
 const turn_limit = 50.0;
 let speed = 1.0;
@@ -80,6 +71,11 @@ const cmd_vel_publisher = new ROSLIB.Topic({
   messageType: "geometry_msgs/Twist"
 });
 
+const gimbal_cmd_publisher = new ROSLIB.Topic({
+  ros,
+  name: "/gimbal_command",
+  messageType: "std_msgs/Bool"
+})
 
 function readKey(e){
   const key = e.key
@@ -110,4 +106,9 @@ function readKey(e){
     speed = Math.min(speed_multiplier*speed, speed_limit);
     turn = Math.min(turn_multiplier*speed, turn_limit);
   }        
+  else if (key in gimbalBindings){
+    console.log(key)
+    gimbal_input = new ROSLIB.Message(gimbalBindings[key]);
+    gimbal_cmd_publisher.publish(gimbal_input)
+  }
 }     
