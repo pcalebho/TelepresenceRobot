@@ -6,6 +6,7 @@ const { Server } = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+const PORT = 3000
 
 let connectedUser = null; // Store the ID of the currently connected user
 
@@ -38,6 +39,6 @@ io.on('connection', (socket) => {
 });
 
 
-server.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
+server.listen(PORT, () => {
+    console.log('Server is running on http://localhost:', PORT);
 });

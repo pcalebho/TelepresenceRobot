@@ -3,21 +3,12 @@ let kioskPeer, kioskStream, clientVideo, kioskVideo;
 
 kioskVideo = document.getElementById('remoteVideo');
 
-// Request user media
-navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-    .then((stream) => {
-        kioskStream = stream;
-        
-        InitKiosk();
+InitKiosk();
 
-        // Signal when receiving a signal
-        socket.on('offer', (data) => {
-            kioskPeer.signal(data);
-        });              
-    })
-    .catch((err) => {
-        console.error('Error accessing media devices.', err);
-    });
+// Signal when receiving a signal
+socket.on('offer', (data) => {
+    kioskPeer.signal(data);
+});
 
 
 function InitKiosk() {
@@ -29,7 +20,6 @@ function InitKiosk() {
     kioskPeer = new SimplePeer({
         initiator: false,
         trickle: false,
-        stream: kioskStream
     });
 
     // Send signals to the other peer
