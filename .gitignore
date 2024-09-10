@@ -128,12 +128,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-#SSL/TLS
-*.csr
-*.key
-
-#Ros
-build/
-install/
-log/
