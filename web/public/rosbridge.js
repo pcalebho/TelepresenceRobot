@@ -107,8 +107,8 @@ function readKey(e){
     turn = Math.min(turn_multiplier*speed, turn_limit);
   }        
   else if (key in gimbalBindings){
-    console.log(key)
-    gimbal_input = new ROSLIB.Message(gimbalBindings[key]);
+    console.log(gimbalBindings[key])
+    gimbal_input = new ROSLIB.Message({data: gimbalBindings[key]});
     gimbal_cmd_publisher.publish(gimbal_input)
   }
 }     
