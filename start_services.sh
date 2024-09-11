@@ -1,3 +1,4 @@
 #!/bin/bash
 
-node web/server.js & echo $! > server.pid & ros2 launch rosbridge_server rosbridge_websocket_launch.xml
+node web/server.js & echo $! > server.pid \
+ & source robot/install/setup.bash && ros2 launch stepper telebot_launch.py
