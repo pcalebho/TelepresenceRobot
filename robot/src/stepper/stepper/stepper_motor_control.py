@@ -8,7 +8,7 @@ from std_msgs.msg import Bool
 # GPIO Pins configuration
 DIR_PIN = 2   # Direction pin
 STEP_PIN = 3  # Step pin
-ENABLE_PIN = 14
+ENABLE_PIN = 4
 DEFAULT_SPEED = 1000     # Steps per second
 DEFAULT_SPR = 1600      #steps per revolution
 DEFAULT_INCREMENT = 100     #100 step increment
