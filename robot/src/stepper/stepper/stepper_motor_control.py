@@ -1,6 +1,9 @@
 import rclpy
 from rclpy.node import Node
 import RPi.GPIO as GPIO
+from rclpy.executors import ExternalShutdownException
+import sys
+import signal
 from time import sleep
 from std_msgs.msg import Bool
 
@@ -40,7 +43,6 @@ class StepperMotorControl(Node):
         self.setup_gpio()
 
         self.get_logger().info('StepperMotorControl node has been started')
-        
 
     def setup_gpio(self):
         GPIO.setmode(GPIO.BCM)
@@ -56,12 +58,12 @@ class StepperMotorControl(Node):
         self.move_motor(msg.data)
 
     def move_motor(self, direction):
-        GPIO.output(DIR_PIN, direction)
+        GPIO.output(DIR_PIN, not direction)
         for i in range(self.INCREMENT):  # 200 steps for one revolution
             if (self.current_position >= DEFAULT_MAX_STEPS and direction):
                 self.get_logger().info('Hit max steps')
                 return
-            elif (self.current_position <= 0 and not direction):
+            elif (self.current_position <= 0 and not.  direction):
                 self.get_logger().info(f'Hit min steps')
                 return
             
