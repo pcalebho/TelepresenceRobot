@@ -63,7 +63,7 @@ class StepperMotorControl(Node):
             if (self.current_position >= DEFAULT_MAX_STEPS and direction):
                 self.get_logger().info('Hit max steps')
                 return
-            elif (self.current_position <= 0 and not.  direction):
+            elif (self.current_position <= 0 and not direction):
                 self.get_logger().info(f'Hit min steps')
                 return
             
