@@ -1,7 +1,8 @@
-// public/client.js
+import { speedBindings, gimbalBindings, moveBindings } from './bindings.js';
+
 const socket = io();
 let connectedUser = null;
-let localPeer, localStream, kioskVideo, clientVideo;
+let clientPeer, localStream, kioskVideo, clientVideo;
 
 kioskVideo = document.getElementById('remoteVideo');
 clientVideo = document.getElementById('localVideo');
@@ -16,7 +17,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         // Signal when receiving a signal
         socket.on('answer', (data) => {
-            localPeer.signal(data);
+            clientPeer.signal(data);
         });
 
     })
@@ -24,31 +25,46 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         console.error('Error accessing media devices.', err);
     });
 
+
 function InitPeer() {
-    if (localPeer){
-        localPeer.destroy();
+    if (clientPeer){
+        clientPeer.destroy();
     }
 
     // Create a new peer connection
-    localPeer = new SimplePeer({
+    clientPeer = new SimplePeer({
         initiator: true,
         trickle: false,
         stream: localStream
     });
 
     // Send signals to the other peer
-    localPeer.on('signal', (data) => {
+    clientPeer.on('signal', (data) => {
         socket.emit('offer', data);
         console.log("Offer: ", data)
     });
 
     // Add the remote stream
-    localPeer.on('stream', (stream) => {
+    clientPeer.on('stream', (stream) => {
         kioskVideo.srcObject = stream;
     });
 
-    localPeer.on('close', () => {
+    clientPeer.on('close', () => {
         console.log('Peer connection closed');
         InitPeer();
     });
+
+    clientPeer.on('connect', () => {
+        window.addEventListener("keydown", sendKey);
+    });
+}
+
+function sendKey(e) {
+    const key = e.key;
+    if (key in moveBindings || key in gimbalBindings || key in speedBindings){
+        console.log('Keystroke sent to robot: ', key)
+        clientPeer.send(key);
+    } else {
+        console.log(key, 'is not a valid key stroke');
+    }    
 }

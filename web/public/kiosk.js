@@ -1,7 +1,11 @@
+import {PiPublisher} from "./ros_commands.js"
+
 const socket = io();
 let kioskPeer, kioskStream, clientVideo, kioskVideo;
 
 kioskVideo = document.getElementById('remoteVideo');
+
+const publisher = new PiPublisher;
 
 // Request user media
 navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -46,4 +50,13 @@ function InitKiosk() {
         console.log('Peer connection closed');
         InitKiosk();
     });
+
+    kioskPeer.on('data', data => {
+        const decoder = new TextDecoder('utf-8');
+        const sentKey = decoder.decode(data);
+        console.log('Sent Key', sentKey);
+
+        // publisher.readkey(sentKey)
+    });
 }
+
