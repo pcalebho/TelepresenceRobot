@@ -1,0 +1,3 @@
+[submodule "telebot_server"]
+	path = telebot_server
+	url = git@github.com:pcalebho/telebot_server.git
