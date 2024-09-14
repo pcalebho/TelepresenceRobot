@@ -4,26 +4,21 @@ const socket = io();
 const speed_limit = 1000.0;
 const turn_limit = 50.0;
 
-let kioskPeer, kioskStream, clientVideo, kioskVideo;
-
+let kioskPeer, kioskStream, kioskVideo;
 let speed = 1.0;
 let turn = 1.0;
 
 kioskVideo = document.getElementById('remoteVideo');
 
 const ros = new ROSLIB.Ros({ url : 'ws://192.168.1.135:8080' });
-
-// When the Rosbridge server connects, fill the span with id “status" with “successful"
-ros.on('connection', () => {
+    ros.on('connection', () => {
     console.log("Successful RosBridge Websocket Connection");
 });
 
-// When the Rosbridge server experiences an error, fill the “status" span with the returned error
 ros.on('error', (error) => {
     console.log("Error RosBridge Websocket Connection");
 });
 
-// When the Rosbridge server shuts down, fill the “status" span with “closed"
 ros.on('close', () => {
     console.log("Closed RosBridge Websocket Connection");
 });
@@ -39,42 +34,6 @@ const gimbal_cmd_publisher = new ROSLIB.Topic({
     name: "/gimbal_command",
     messageType: "std_msgs/Bool"
 })
-
-
-function readKey(key){
-    let xlin = 0.0, ylin = 0.0, zlin = 0.0, th = 0.0;
-    let speed_multiplier = 1.0, turn_multiplier = 1.0;
-    if (key in moveBindings){
-        [xlin, ylin, zlin, th] = moveBindings[key];
-
-        let twist_msg = {
-            linear: {
-                x: xlin*speed,
-                y: ylin*speed,
-                z: zlin*speed
-            },
-            angular: {
-                x: 0,
-                y: 0,
-                z: th*turn
-            }
-        };
-        const teleop_input = new ROSLIB.Message(twist_msg);
-
-        cmd_vel_publisher.publish(teleop_input);
-    }
-    else if (key in speedBindings){
-        [speed_multiplier, turn_multiplier] = speedBindings[key];
-
-        speed = Math.min(speed_multiplier*speed, speed_limit);
-        turn = Math.min(turn_multiplier*speed, turn_limit);
-    }        
-    else if (key in gimbalBindings){
-        console.log(gimbalBindings[key])
-        const gimbal_input = new ROSLIB.Message({data: gimbalBindings[key]});
-        gimbal_cmd_publisher.publish(gimbal_input)
-    }
-}     
 
 
 // Request user media
@@ -95,6 +54,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
 
 function InitKiosk() {
+    /*Initializes the Peer connection with the client browser */
     if (kioskPeer){
         kioskPeer.destroy();
     }
@@ -131,3 +91,40 @@ function InitKiosk() {
 }
 
 
+function readKey(key){
+    /*
+    Takes keystroke and publishes velocity command to the /cmd_vel topic
+     */
+    let xlin = 0.0, ylin = 0.0, zlin = 0.0, th = 0.0;
+    let speed_multiplier = 1.0, turn_multiplier = 1.0;
+    if (key in moveBindings){
+        [xlin, ylin, zlin, th] = moveBindings[key];
+
+        let twist_msg = {
+            linear: {
+                x: xlin*speed,
+                y: ylin*speed,
+                z: zlin*speed
+            },
+            angular: {
+                x: 0,
+                y: 0,
+                z: th*turn
+            }
+        };
+        const teleop_input = new ROSLIB.Message(twist_msg);
+
+        cmd_vel_publisher.publish(teleop_input);
+    }
+    else if (key in speedBindings){
+        [speed_multiplier, turn_multiplier] = speedBindings[key];
+
+        speed = Math.min(speed_multiplier*speed, speed_limit);
+        turn = Math.min(turn_multiplier*speed, turn_limit);
+    }        
+    else if (key in gimbalBindings){
+        console.log(gimbalBindings[key])
+        const gimbal_input = new ROSLIB.Message({data: gimbalBindings[key]});
+        gimbal_cmd_publisher.publish(gimbal_input)
+    }
+}     
