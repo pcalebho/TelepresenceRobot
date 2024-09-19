@@ -6,6 +6,7 @@ Building a telepresence robot, leveraging WebRTC, ROS, and Nodejs. Built on top 
 - ROS node setup - WIP
 - Signaling server setup - WIP
 - nginx setup - WIP
+- boot setup - WIP
 
 # Build Resouces
 - Networking Diagram
