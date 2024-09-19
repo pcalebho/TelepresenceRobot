@@ -5,6 +5,7 @@ Building a telepresence robot, leveraging WebRTC, ROS, and Nodejs. Built on top 
 - [Pi hookup and ROS install to create 3](https://iroboteducation.github.io/create3_docs/setup/pi4humble/)
 - ROS node setup - WIP
 - Signaling server setup - WIP
+- nginx setup - WIP
 
 # Build Resouces
 - Networking Diagram
