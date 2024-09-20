@@ -21,5 +21,5 @@ Building a telepresence robot, leveraging WebRTC, ROS, and Nodejs. Built on top 
     - Extra Caster wheel for stabilizng the base
     - Capacitor and Diode for stepper power
     - Dyneema rope for Capstan drive
-- Electrical schematic (outdated, unless you plan on running on the kiosk browser of the pi)
+- Electrical schematic (outdated, unless you plan on running the kiosk browser of the pi)
     - ![image](https://github.com/user-attachments/assets/b3d7fe3e-129f-41de-8602-9bd7b6e0dbaf)
